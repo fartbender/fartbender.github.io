@@ -44,7 +44,8 @@ bloomwater_slider.oninput = function () {
 
 var button = document.getElementById("button1");
 button.onclick = () => {
-    publishBrew(30, 55, 180, 95, 30, 60)
+    publishBrew(30, ratio_slider.value, brewtime_slider.value, temperature_slider.value,
+        bloomtime_slider.value, bloomwater_slider.value)
 };
 
 
