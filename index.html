@@ -1,6 +1,11 @@
 <!doctype html>
 <html>
 <style>
+    .parameter_name {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 250%;
+    }
+
     .slidecontainer {
         width: 100%;
     }
@@ -14,6 +19,7 @@
         opacity: 0.7;
         -webkit-transition: .2s;
         transition: opacity .2s;
+        display: block;
     }
 
     .slider:hover {
@@ -37,15 +43,15 @@
     }
 
     .container {
-        height: 100px;
+        height: 110px;
         position: relative;
-
+        display: block;
     }
 
     .center {
         margin: 0;
         position: absolute;
-        top: 50%;
+        top: 400%;
         left: 50%;
         -ms-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
@@ -78,47 +84,37 @@
 </head>
 
 <body>
-    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 200%;">Dial in your Brew
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 500%;">Dial in your Brew
     </div>
 
     <div class="slidecontainer">
-        <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 150%;">Ratio</p>
+        <p class="parameter_name" id="ratio_output">Ratio</p>
         <input type="range" min="40" max="80" value="55" class="slider" id="ratio_slider">
-        <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 100%;">Value: <span
-                id="ratio_value"></span></p>
     </div>
     <br>
     <div class="slidecontainer">
-        <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 150%;">Brew Time</p>
+        <p class="parameter_name" id="brewtime_output">Brew Time</p>
         <input type="range" min="150" max="210" value="180" class="slider" id="brewtime_slider">
-        <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 100%;">Value: <span
-                id="brewtime_value"></span></p>
     </div>
     <br>
     <div class="slidecontainer">
-        <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 150%;">Temperature</p>
+        <p class="parameter_name" id="temperature_output">Temperature</p>
         <input type="range" min="80" max="100" value="93" class="slider" id="temperature_slider">
-        <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 100%;">Value: <span
-                id="temperature_value"></span></p>
     </div>
     <br>
     <div class="slidecontainer">
-        <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 150%;">Bloom Time</p>
+        <p class="parameter_name" id="bloomtime_output">Bloom Time</p>
         <input type="range" min="1" max="60" value="30" class="slider" id="bloomtime_slider">
-        <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 100%;">Value: <span
-                id="bloomtime_value"></span></p>
     </div>
     <br>
     <div class="slidecontainer">
-        <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 150%;">Bloom Water</p>
+        <p class="parameter_name" id="bloomwater_output">Bloom Water</p>
         <input type="range" min="30" max="100" value="60" class="slider" id="bloomwater_slider">
-        <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 100%;">Value: <span
-                id="bloomwater_value"></span></p>
     </div>
     <br>
     <div class="container">
         <div class="center">
-            <button class="button button1">Brew</button>
+            <button class="button button1" id="button1">Brew</button>
         </div>
     </div>
 </body>

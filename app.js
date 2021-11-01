@@ -4,43 +4,48 @@ pubnub = new PubNub({
     uuid: "michael"
 })
 pubnub.subscribe({
-    channels: ['coffee']
+    channels: ['coffee', 'brew']
 });
 
 var ratio_slider = document.getElementById("ratio_slider");
-var ratio_value = document.getElementById("ratio_value");
-ratio_value.innerHTML = ratio_slider.value + "g/l";
+var ratio_value = document.getElementById("ratio_output");
+ratio_value.innerHTML = "Ratio: " + ratio_slider.value + "g/l";
 ratio_slider.oninput = function () {
-    ratio_value.innerHTML = this.value + "g/l";
+    ratio_value.innerHTML = "Ratio: " + this.value + "g/l";
 }
 
 var brewtime_slider = document.getElementById("brewtime_slider");
-var brewtime_value = document.getElementById("brewtime_value");
-brewtime_value.innerHTML = convert(brewtime_slider.value) + "min";
+var brewtime_value = document.getElementById("brewtime_output");
+brewtime_value.innerHTML = "Brew Time: " + convert(brewtime_slider.value) + "min";
 brewtime_slider.oninput = function () {
-    brewtime_value.innerHTML = convert(this.value) + "min";
+    brewtime_value.innerHTML = "Brew Time: " + convert(this.value) + "min";
 }
 
 var temperature_slider = document.getElementById("temperature_slider");
-var temperature_value = document.getElementById("temperature_value");
-temperature_value.innerHTML = temperature_slider.value + "C";
+var temperature_value = document.getElementById("temperature_output");
+temperature_value.innerHTML = "Temperature: " + temperature_slider.value + "C";
 temperature_slider.oninput = function () {
-    temperature_value.innerHTML = this.value + "C";
+    temperature_value.innerHTML = "Temperature: " + this.value + "C";
 }
 
 var bloomtime_slider = document.getElementById("bloomtime_slider");
-var bloomtime_value = document.getElementById("bloomtime_value");
-bloomtime_value.innerHTML = convert(bloomtime_slider.value) + "min";
+var bloomtime_value = document.getElementById("bloomtime_output");
+bloomtime_value.innerHTML = "Bloom Time: " + convert(bloomtime_slider.value) + "min";
 bloomtime_slider.oninput = function () {
-    bloomtime_value.innerHTML = convert(this.value) + "min";
+    bloomtime_value.innerHTML = "Bloom Time: " + convert(this.value) + "min";
 }
 
 var bloomwater_slider = document.getElementById("bloomwater_slider");
-var bloomwater_value = document.getElementById("bloomwater_value");
-bloomwater_value.innerHTML = bloomwater_slider.value + "g";
+var bloomwater_value = document.getElementById("bloomwater_output");
+bloomwater_value.innerHTML = "Bloom Water: " + bloomwater_slider.value + "g";
 bloomwater_slider.oninput = function () {
-    bloomwater_value.innerHTML = this.value + "g";
+    bloomwater_value.innerHTML = "Bloom Water: " + this.value + "g";
 }
+
+var button = document.getElementById("button1");
+button.onclick = () => {
+    publishBrew(30, 55, 180, 95, 30, 60)
+};
 
 
 pubnub.addListener({
@@ -50,14 +55,29 @@ pubnub.addListener({
         }
     },
     message: function (msg) {
-        console.log(msg.message.title);
-        console.log(msg.message.description);
+        console.log(msg.message);
     },
     presence: function (presenceEvent) {
         // This is where you handle presence. Not important for now :)
     }
 })
 
+function publishBrew(beans, ratio, brew_time, temperature, bloom_time, bloom_water) {
+    var publishPayload = {
+        channel: "brew",
+        message: {
+            beans: beans,
+            ratio: ratio,
+            brew_time: brew_time,
+            temperature: temperature,
+            bloom_time: bloom_time,
+            bloom_water: bloom_water
+        }
+    }
+    pubnub.publish(publishPayload, function (status, response) {
+        console.log(status, response);
+    })
+}
 
 function publishSampleMessage() {
     console.log("Publish to a channel 'coffee'");
