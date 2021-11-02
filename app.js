@@ -42,10 +42,22 @@ bloomwater_slider.oninput = function () {
     bloomwater_value.innerHTML = "Bloom Water: " + this.value + "g";
 }
 
+var brewing = false;
+
 var button = document.getElementById("button1");
 button.onclick = () => {
-    publishBrew(30, ratio_slider.value, brewtime_slider.value, temperature_slider.value,
-        bloomtime_slider.value, bloomwater_slider.value)
+    if (!brewing) {
+        button.style.backgroundColor = "#af4c4c"
+        button.innerHTML = "Abort"
+        publishBrew(30, ratio_slider.value, brewtime_slider.value, temperature_slider.value,
+            bloomtime_slider.value, bloomwater_slider.value)
+        brewing = true;
+    } else {
+        button.style.backgroundColor = "#4CAF50"
+        button.innerHTML = "Brew"
+        publishStopBrew();
+        brewing = false;
+    }
 };
 
 
@@ -73,6 +85,18 @@ function publishBrew(beans, ratio, brew_time, temperature, bloom_time, bloom_wat
             temperature: temperature,
             bloom_time: bloom_time,
             bloom_water: bloom_water
+        }
+    }
+    pubnub.publish(publishPayload, function (status, response) {
+        console.log(status, response);
+    })
+}
+
+function publishStopBrew() {
+    var publishPayload = {
+        channel: "brew",
+        message: {
+            abort: "true"
         }
     }
     pubnub.publish(publishPayload, function (status, response) {
