@@ -49,7 +49,7 @@ button.onclick = () => {
     if (!brewing) {
         button.style.backgroundColor = "#af4c4c"
         button.innerHTML = "Abort"
-        publishBrew(30, ratio_slider.value, brewtime_slider.value, temperature_slider.value,
+        publishBrew(35, ratio_slider.value, brewtime_slider.value, temperature_slider.value,
             bloomtime_slider.value, bloomwater_slider.value)
         brewing = true;
     } else {
