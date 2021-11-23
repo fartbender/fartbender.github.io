@@ -11,8 +11,7 @@
 </head>
 
 <body style="background-color: rgba(51, 54, 78, 1);">
-    <div id="chart">
-    </div>
+    <div id="chart"></div>
     <div id="legend">
         <div id="bloom_water" onclick="selectParameter('bloom_water')"> Bloom Water &nbsp;&nbsp;&nbsp; 80g</div>
         <div id="bloom_time" onclick="selectParameter('bloom_time')">Bloom Time &nbsp;&nbsp;&nbsp; 30s</div>
@@ -23,11 +22,14 @@
 
     <!-- <img src="./assets/dial.svg" id="knob"> -->
     <div id="center"></div>
-    <i class="knob" id="knob"></i>
+    <div class="knob-container">
+        <img class="knob" id="knob"></img>
+    </div>
+    <div id="resolution" style="color: blanchedalmond;">Resolution is: unknown</div>
 
 </body>
 <script src="app.js"></script>
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="propeller.js"></script>
 <script>
     $('#knob').propeller({

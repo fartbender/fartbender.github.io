@@ -1,3 +1,5 @@
+document.getElementById("resolution").innerHTML = screen.width + " " + screen.height
+
 var current_parameter = null;
 var current_series = [50, 50, 50, 50, 50]
 
