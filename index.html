@@ -1,124 +1,43 @@
-<!doctype html>
-<html>
-<style>
-    .parameter_name {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 250%;
-    }
-
-    .slidecontainer {
-        width: 100%;
-    }
-
-    .slider {
-        -webkit-appearance: none;
-        width: 100%;
-        height: 100px;
-        background: #d3d3d3;
-        outline: none;
-        opacity: 0.7;
-        -webkit-transition: .2s;
-        transition: opacity .2s;
-        display: block;
-    }
-
-    .slider:hover {
-        opacity: 1;
-    }
-
-    .slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 50px;
-        height: 100px;
-        background: #04AA6D;
-        cursor: pointer;
-    }
-
-    .slider::-moz-range-thumb {
-        width: 50px;
-        height: 100px;
-        background: #04AA6D;
-        cursor: pointer;
-    }
-
-    .container {
-        height: 110px;
-        position: relative;
-        display: block;
-    }
-
-    .center {
-        margin: 0;
-        position: absolute;
-        top: 200%;
-        left: 50%;
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-    }
-
-    .button {
-        border: none;
-        color: white;
-        padding: 100px 250px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 65px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 4px 2px;
-        cursor: pointer;
-    }
-
-    .button1 {
-        background-color: #4CAF50;
-    }
-</style>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <title>Our Funky HTML Page</title>
-    <meta name="description" content="Our first page">
-    <meta name="keywords" content="html tutorial template">
-    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.33.1.js"></script>
-    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.33.1.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body>
-    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 500%;">Dial in your Brew
+<body style="background-color: rgba(51, 54, 78, 1);">
+    <div id="chart">
+    </div>
+    <div id="legend">
+        <div id="bloom_water" onclick="selectParameter('bloom_water')"> Bloom Water &nbsp;&nbsp;&nbsp; 80g</div>
+        <div id="bloom_time" onclick="selectParameter('bloom_time')">Bloom Time &nbsp;&nbsp;&nbsp; 30s</div>
+        <div id="temperature" onclick="selectParameter('temperature')">Temperature &nbsp;&nbsp;&nbsp; 93C</div>
+        <div id="brew_time" onclick="selectParameter('brew_time')">Brew Time &nbsp;&nbsp;&nbsp; 3:00</div>
+        <div id="ratio" onclick="selectParameter('ratio')">Ratio &nbsp;&nbsp;&nbsp; 1:15</div>
     </div>
 
-    <div class="slidecontainer">
-        <p class="parameter_name" id="ratio_output">Ratio</p>
-        <input type="range" min="40" max="80" value="55" class="slider" id="ratio_slider">
-    </div>
-    <br>
-    <div class="slidecontainer">
-        <p class="parameter_name" id="brewtime_output">Brew Time</p>
-        <input type="range" min="150" max="210" value="180" class="slider" id="brewtime_slider">
-    </div>
-    <br>
-    <div class="slidecontainer">
-        <p class="parameter_name" id="temperature_output">Temperature</p>
-        <input type="range" min="80" max="100" value="93" class="slider" id="temperature_slider">
-    </div>
-    <br>
-    <div class="slidecontainer">
-        <p class="parameter_name" id="bloomtime_output">Bloom Time</p>
-        <input type="range" min="1" max="60" value="30" class="slider" id="bloomtime_slider">
-    </div>
-    <br>
-    <div class="slidecontainer">
-        <p class="parameter_name" id="bloomwater_output">Bloom Water</p>
-        <input type="range" min="30" max="100" value="60" class="slider" id="bloomwater_slider">
-    </div>
-    <br>
-    <div class="container">
-        <div class="center">
-            <button class="button button1" id="button1">Brew</button>
-        </div>
-    </div>
+    <!-- <img src="./assets/dial.svg" id="knob"> -->
+    <div id="center"></div>
+    <i class="knob" id="knob"></i>
+
 </body>
-
 <script src="app.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="propeller.js"></script>
+<script>
+    $('#knob').propeller({
+        inertia: 0.6,
+        speed: 0,
+
+        onRotate: function () {
+            adjustParameter(this.angle);
+        }
+    });
+</script>
 
 </html>

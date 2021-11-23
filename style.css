@@ -1,0 +1,71 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+
+body {
+    font-family: Roboto, sans-serif;
+
+}
+
+
+#chart {
+    max-width: 650px;
+    margin: 35px auto;
+}
+
+#legend {
+    position: absolute;
+    z-index: 3;
+    top: 50px;
+    left: 18%;
+    color: #E1E6ED;
+    font-size: 2%;
+    text-align: right;
+    line-height: 160%;
+    font-family: Roboto;
+}
+
+/* #target {
+    position: absolute;
+    left: 16%;
+} */
+
+#center {
+    position: absolute;
+    width: 200px;
+    height: 230px;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url(./assets/background.png);
+    z-index: 1;
+}
+
+.knob {
+    position: absolute;
+    top: 62.5%;
+    left: 23%;
+    width: 94px;
+    height: 93px;
+    background-image: url(./assets/dial.png);
+    z-index: 2;
+}
+
+#apexcharts-radialbarTrack-0 {
+    stroke: #8362583f;
+}
+
+#apexcharts-radialbarTrack-1 {
+    stroke: #8362583f;
+}
+
+#apexcharts-radialbarTrack-2 {
+    stroke: #8362583f;
+}
+
+#apexcharts-radialbarTrack-3 {
+    stroke: #8362583f;
+}
+
+#apexcharts-radialbarTrack-4 {
+    stroke: #8362583f;
+}

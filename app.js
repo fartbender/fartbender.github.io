@@ -1,125 +1,139 @@
-pubnub = new PubNub({
-    publishKey: "pub-c-3760f31d-3cac-492d-ae07-926022da7319",
-    subscribeKey: "sub-c-b9ade3e4-3af2-11ec-b886-526a8555c638",
-    uuid: "michael"
-})
-pubnub.subscribe({
-    channels: ['coffee', 'brew']
-});
+var current_parameter = null;
+var current_series = [50, 50, 50, 50, 50]
 
-var ratio_slider = document.getElementById("ratio_slider");
-var ratio_value = document.getElementById("ratio_output");
-ratio_value.innerHTML = "Ratio: " + ratio_slider.value + "g/l";
-ratio_slider.oninput = function () {
-    ratio_value.innerHTML = "Ratio: " + this.value + "g/l";
-}
+var options = {
+    series: [50, 50, 50, 50, 50],
+    chart: {
+        height: 200,
+        type: 'radialBar',
+    },
+    plotOptions: {
+        radialBar: {
+            offsetY: 0,
+            startAngle: 0,
+            endAngle: 270,
+            hollow: {
+                margin: 5,
+                size: '30%',
+                background: 'transparent',
+                image: undefined,
+            },
+            dataLabels: {
+                name: {
+                    show: false,
+                },
+                value: {
+                    show: false,
+                }
+            }
+        }
+    },
+    colors: ['#836258', '#836258', '#836258', '#836258', '#836258'],
+    labels: ['Bloom Water', 'Bloom Time', 'Temperature', 'Brew Time', 'Ratio'],
 
-var brewtime_slider = document.getElementById("brewtime_slider");
-var brewtime_value = document.getElementById("brewtime_output");
-brewtime_value.innerHTML = "Brew Time: " + convert(brewtime_slider.value) + "min";
-brewtime_slider.oninput = function () {
-    brewtime_value.innerHTML = "Brew Time: " + convert(this.value) + "min";
-}
 
-var temperature_slider = document.getElementById("temperature_slider");
-var temperature_value = document.getElementById("temperature_output");
-temperature_value.innerHTML = "Temperature: " + temperature_slider.value + "C";
-temperature_slider.oninput = function () {
-    temperature_value.innerHTML = "Temperature: " + this.value + "C";
-}
 
-var bloomtime_slider = document.getElementById("bloomtime_slider");
-var bloomtime_value = document.getElementById("bloomtime_output");
-bloomtime_value.innerHTML = "Bloom Time: " + convert(bloomtime_slider.value) + "min";
-bloomtime_slider.oninput = function () {
-    bloomtime_value.innerHTML = "Bloom Time: " + convert(this.value) + "min";
-}
-
-var bloomwater_slider = document.getElementById("bloomwater_slider");
-var bloomwater_value = document.getElementById("bloomwater_output");
-bloomwater_value.innerHTML = "Bloom Water: " + bloomwater_slider.value + "g";
-bloomwater_slider.oninput = function () {
-    bloomwater_value.innerHTML = "Bloom Water: " + this.value + "g";
-}
-
-var brewing = false;
-
-var button = document.getElementById("button1");
-button.onclick = () => {
-    if (!brewing) {
-        button.style.backgroundColor = "#af4c4c"
-        button.innerHTML = "Abort"
-        publishBrew(35, ratio_slider.value, brewtime_slider.value, temperature_slider.value,
-            bloomtime_slider.value, bloomwater_slider.value)
-        brewing = true;
-    } else {
-        button.style.backgroundColor = "#4CAF50"
-        button.innerHTML = "Brew"
-        publishStopBrew();
-        brewing = false;
-    }
+    responsive: [{
+        breakpoint: 50,
+        options: {
+            legend: {
+                show: false
+            }
+        }
+    }]
 };
 
+var chart = new ApexCharts(document.querySelector("#chart"), options);
+chart.render();
 
-pubnub.addListener({
-    status: function (statusEvent) {
-        if (statusEvent.category === "PNConnectedCategory") {
-            publishSampleMessage();
-        }
-    },
-    message: function (msg) {
-        console.log(msg.message);
-    },
-    presence: function (presenceEvent) {
-        // This is where you handle presence. Not important for now :)
-    }
-})
+var previous_angle = 0;
 
-function publishBrew(beans, ratio, brew_time, temperature, bloom_time, bloom_water) {
-    var publishPayload = {
-        channel: "brew",
-        message: {
-            beans: beans,
-            ratio: ratio,
-            brew_time: brew_time,
-            temperature: temperature,
-            bloom_time: bloom_time,
-            bloom_water: bloom_water
-        }
+function adjustParameter(angle) {
+    if (!current_parameter) {
+        return;
     }
-    pubnub.publish(publishPayload, function (status, response) {
-        console.log(status, response);
+
+    var increment;
+    if (previous_angle < angle) {
+        increment = 1;
+        previous_angle = angle;
+    } else {
+        increment = -1
+        previous_angle = angle;
+    }
+
+    var updated_series;
+
+    switch (current_parameter) {
+        case "ratio":
+            var parameter_updated = clamp(current_series[4] + increment, 0, 100)
+            updated_series = [current_series[0], current_series[1], current_series[2], current_series[3], parameter_updated]
+            break;
+        case "brew_time":
+            var parameter_updated = clamp(current_series[3] + increment, 0, 100)
+            updated_series = [current_series[0], current_series[1], current_series[2], parameter_updated, current_series[4]]
+            break;
+        case "temperature":
+            var parameter_updated = clamp(current_series[2] + increment, 0, 100)
+            updated_series = [current_series[0], current_series[1], parameter_updated, current_series[3], current_series[4]]
+            break;
+        case "bloom_time":
+            var parameter_updated = clamp(current_series[1] + increment, 0, 100)
+            updated_series = [current_series[0], parameter_updated, current_series[2], current_series[3], current_series[4]]
+            break;
+        case "bloom_water":
+            var parameter_updated = clamp(current_series[0] + increment, 0, 100)
+            updated_series = [parameter_updated, current_series[1], current_series[2], current_series[3], current_series[4]]
+            break;
+    }
+
+    chart.updateOptions({
+        series: updated_series,
     })
+    current_series = updated_series;
+
 }
 
-function publishStopBrew() {
-    var publishPayload = {
-        channel: "brew",
-        message: {
-            abort: "true"
-        }
+
+function selectParameter(name) {
+    switch (name) {
+        case "ratio":
+            chart.updateOptions({
+                colors: ['#836258', '#836258', '#836258', '#836258', '#2F9FF4'],
+            })
+            current_parameter = "ratio"
+            break;
+        case "brew_time":
+            chart.updateOptions({
+                colors: ['#836258', '#836258', '#836258', '#2F9FF4', '#836258'],
+            })
+            current_parameter = "brew_time"
+            break;
+        case "temperature":
+            chart.updateOptions({
+                colors: ['#836258', '#836258', '#2F9FF4', '#836258', '#836258'],
+            })
+            current_parameter = "temperature"
+            break;
+        case "bloom_time":
+            chart.updateOptions({
+                colors: ['#836258', '#2F9FF4', '#836258', '#836258', '#836258'],
+            })
+            current_parameter = "bloom_time"
+            break;
+        case "bloom_water":
+            chart.updateOptions({
+                colors: ['#2F9FF4', '#836258', '#836258', '#836258', '#836258'],
+            })
+            current_parameter = "bloom_water"
+            break;
     }
-    pubnub.publish(publishPayload, function (status, response) {
-        console.log(status, response);
-    })
 }
 
-function publishSampleMessage() {
-    console.log("Publish to a channel 'coffee'");
-    // With the right payload, you can publish a message, add a reaction to a message,
-    // send a push notification, or send a small payload called a signal.
-    var publishPayload = {
-        channel: "coffee",
-        message: {
-            title: "greeting",
-            description: "This is my first message!"
-        }
-    }
-    pubnub.publish(publishPayload, function (status, response) {
-        console.log(status, response);
-    })
-}
-
-function convert(value) {
-    return Math.floor(value / 60) + ":" + (value % 60 ? value % 60 : '00')
+function clamp(num, min, max) {
+    return num <= min ?
+        min :
+        num >= max ?
+        max :
+        num
 }
