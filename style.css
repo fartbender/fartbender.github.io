@@ -15,10 +15,10 @@ body {
 #legend {
     position: absolute;
     z-index: 3;
-    top: 50px;
+    top: 55px;
     left: 18%;
     color: #E1E6ED;
-    font-size: 2%;
+    font-size: 70%;
     text-align: right;
     line-height: 160%;
     font-family: Roboto;
