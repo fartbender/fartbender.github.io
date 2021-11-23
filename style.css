@@ -9,13 +9,13 @@ body {
 
 #chart {
     max-width: 650px;
-    margin: 35px auto;
+    margin: 60px auto;
 }
 
 #legend {
     position: absolute;
     z-index: 3;
-    top: 55px;
+    top: 83px;
     left: 18%;
     color: #E1E6ED;
     font-size: 70%;
@@ -29,7 +29,7 @@ body {
     left: 16%;
 } */
 
-#center {
+/* #center {
     position: absolute;
     width: 200px;
     height: 230px;
@@ -38,15 +38,25 @@ body {
     transform: translate(-50%, -50%);
     background-image: url(./assets/background.png);
     z-index: 1;
+} */
+
+.knob-background {
+    position: absolute;
+    top: 59.5%;
+    left: 16%;
+    width: 249px;
+    height: 249px;
+    background-image: url(./assets/background249.png);
+    z-index: 1;
 }
 
 .knob {
     position: absolute;
     top: 62.5%;
     left: 23%;
-    width: 94px;
-    height: 93px;
-    background-image: url(./assets/dial.png);
+    width: 200.09px;
+    height: 197.96px;
+    background-image: url(./assets/dial200.png);
     z-index: 2;
 }
 

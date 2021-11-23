@@ -4,7 +4,7 @@ var current_series = [50, 50, 50, 50, 50]
 var options = {
     series: [50, 50, 50, 50, 50],
     chart: {
-        height: 330,
+        height: 350,
         type: 'radialBar',
     },
     plotOptions: {

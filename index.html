@@ -13,18 +13,27 @@
 <body style="background-color: rgba(51, 54, 78, 1);">
     <div id="chart"></div>
     <div id="legend">
-        <div id="bloom_water" onclick="selectParameter('bloom_water')"> Bloom Water &nbsp;&nbsp;&nbsp; 80g</div>
-        <div id="bloom_time" onclick="selectParameter('bloom_time')">Bloom Time &nbsp;&nbsp;&nbsp; 30s</div>
-        <div id="temperature" onclick="selectParameter('temperature')">Temperature &nbsp;&nbsp;&nbsp; 93C</div>
-        <div id="brew_time" onclick="selectParameter('brew_time')">Brew Time &nbsp;&nbsp;&nbsp; 3:00</div>
-        <div id="ratio" onclick="selectParameter('ratio')">Ratio &nbsp;&nbsp;&nbsp; 1:15</div>
+        <div id="bloom_water" onclick="selectParameter('bloom_water')"> <span
+                style="font-size: 100%; color:#e1e6ed7e">Bloom
+                Water</span> <span style="font-size: 130%;">80g</span></div>
+        <div id="bloom_time" onclick="selectParameter('bloom_time')"><span
+                style="font-size: 100%; color:#e1e6ed7e">Bloom
+                Time</span> <span style="font-size: 130%;">30s</span></div>
+        <div id="temperature" onclick="selectParameter('temperature')"><span
+                style="font-size: 100%; color:#e1e6ed7e;">Temperature</span>
+            <span style="font-size: 130%;">93C</span></div>
+        <div id="brew_time" onclick="selectParameter('brew_time')"><span style="font-size: 100%; color:#e1e6ed7e">Brew
+                Time</span> <span style="font-size: 130%;">3:00m</span></div>
+        <div id="ratio" onclick="selectParameter('ratio')"><span style="font-size: 100%; color:#e1e6ed7e">Ratio</span>
+            <span style="font-size: 130%;">1:15</span></div>
     </div>
 
     <!-- <img src="./assets/dial.svg" id="knob"> -->
     <div id="center"></div>
-    <div class="knob-container">
-        <img class="knob" id="knob"></img>
-    </div>
+
+    <div class="knob-background" id="knob-background"></div>
+    <div class="knob" id="knob"></div>
+
 
 </body>
 <script src="app.js"></script>
@@ -32,7 +41,7 @@
 <script src="propeller.js"></script>
 <script>
     $('#knob').propeller({
-        inertia: 0.6,
+        inertia: 0,
         speed: 0,
 
         onRotate: function () {
