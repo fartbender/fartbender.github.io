@@ -1,9 +1,9 @@
 //parameters
-var ratio_param = 55 //50g / l, remember to convert
+var ratio_param = 66.66 //50g / l, remember to convert
 var brew_time_param = 180
-var temperature_param = 93
+var temperature_param = 90
 var bloom_time_param = 30
-var bloom_water_param = 60
+var bloom_water_param = 50
 
 //pubnub
 pubnub = new PubNub({
