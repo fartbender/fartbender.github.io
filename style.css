@@ -33,11 +33,11 @@ body {
     position: absolute;
     width: 200px;
     height: 230px;
-    top: 70%;
-    left: 50%;
+    top: 72.5%;
+    left: 49.5%;
     transform: translate(-50%, -50%);
     background-image: url(./assets/background.png);
-    z-index: 1;
+    z-index: 3;
 } */
 
 .knob-background {
@@ -58,6 +58,22 @@ body {
     height: 197.96px;
     background-image: url(./assets/dial200.png);
     z-index: 2;
+}
+
+#text {
+    position: absolute;
+    top: 72.2%;
+    left: 42.2%;
+    font-size: 150%;
+    z-index: 3;
+}
+
+#text2 {
+    position: absolute;
+    top: 72.2%;
+    left: 43%;
+    font-size: 150%;
+    z-index: 3;
 }
 
 #apexcharts-radialbarTrack-0 {

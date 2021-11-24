@@ -1,5 +1,5 @@
 //parameters
-var ratio_param = 66.66 //50g / l, remember to convert
+var ratio_param = 83.33 //50g / l, remember to convert
 var brew_time_param = 180
 var temperature_param = 90
 var bloom_time_param = 30
@@ -18,18 +18,57 @@ pubnub.subscribe({
 var brewing = false;
 
 var button = document.getElementById("knob");
-button.style.backgroundColor = "#4CAF50"
+var button2 = document.getElementById("text");
+var button3 = document.getElementById("text2");
+
 
 button.onclick = () => {
     if (!brewing) {
-        button.style.backgroundColor = "#af4c4c"
-        button.innerHTML = "Abort"
+        button2.hidden = true;
+        button3.hidden = false;
+        publishBrew(25, ratio_param, brew_time_param, temperature_param,
+            bloom_time_param, bloom_water_param)
+        brewing = true;
+
+    } else {
+        button2.hidden = false;
+        button3.hidden = true;
+        publishStopBrew();
+        brewing = false;
+    }
+};
+button2.onclick = () => {
+    if (!brewing) {
+        button2.hidden = true;
+        button3.hidden = false;
+        /* button.style.backgroundColor = "#af4c4c"
+        button.innerHTML = "Abort" */
         publishBrew(25, ratio_param, brew_time_param, temperature_param,
             bloom_time_param, bloom_water_param)
         brewing = true;
     } else {
-        button.style.backgroundColor = "#4CAF50"
-        button.innerHTML = "Brew"
+        button2.hidden = false;
+        /* button.style.backgroundColor = "#4CAF50"
+        button.innerHTML = "Brew" */
+        publishStopBrew();
+        brewing = false;
+    }
+};
+
+button3.onclick = () => {
+    if (!brewing) {
+        button2.hidden = false;
+        button3.hidden = true;
+        /* button.style.backgroundColor = "#af4c4c"
+        button.innerHTML = "Abort" */
+        publishBrew(25, ratio_param, brew_time_param, temperature_param,
+            bloom_time_param, bloom_water_param)
+        brewing = true;
+    } else {
+        button2.hidden = false;
+        button3.hidden = true;
+        /* button.style.backgroundColor = "#4CAF50"
+        button.innerHTML = "Brew" */
         publishStopBrew();
         brewing = false;
     }
@@ -113,8 +152,6 @@ var options = {
     },
     colors: ['#836258', '#836258', '#836258', '#836258', '#836258'],
     labels: ['Bloom Water', 'Bloom Time', 'Temperature', 'Brew Time', 'Ratio'],
-
-
 
     responsive: [{
         breakpoint: 50,
@@ -246,7 +283,7 @@ function calculateParameter(name, pct) {
 
     switch (name) {
         case "ratio":
-            value = convertRange(pct, [0, 100], [10, 20]);
+            value = convertRange(pct, [0, 100], [10, 14]).toFixed(1);
             break;
         case "brew_time":
             value = convertRange(pct, [0, 100], [120, 240]);
