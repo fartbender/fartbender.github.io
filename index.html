@@ -8,6 +8,10 @@
     <title>384x854</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.33.1.js"></script>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.33.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="propeller.js"></script>
 </head>
 
 <body style="background-color: rgba(51, 54, 78, 1);">
@@ -15,17 +19,17 @@
     <div id="legend">
         <div id="bloom_water" onclick="selectParameter('bloom_water')"> <span
                 style="font-size: 100%; color:#e1e6ed7e">Bloom
-                Water</span> <span style="font-size: 130%;">80g</span></div>
+                Water</span> <span id="bloom_water_value" style="font-size: 130%;">50g</span></div>
         <div id="bloom_time" onclick="selectParameter('bloom_time')"><span
                 style="font-size: 100%; color:#e1e6ed7e">Bloom
-                Time</span> <span style="font-size: 130%;">30s</span></div>
+                Time</span> <span id="bloom_time_value" style="font-size: 130%;">30s</span></div>
         <div id="temperature" onclick="selectParameter('temperature')"><span
                 style="font-size: 100%; color:#e1e6ed7e;">Temperature</span>
-            <span style="font-size: 130%;">93C</span></div>
+            <span id="temperature_value" style="font-size: 130%;">90C</span></div>
         <div id="brew_time" onclick="selectParameter('brew_time')"><span style="font-size: 100%; color:#e1e6ed7e">Brew
-                Time</span> <span style="font-size: 130%;">3:00m</span></div>
+                Time</span> <span id="brew_time_value" style="font-size: 130%;">3:00m</span></div>
         <div id="ratio" onclick="selectParameter('ratio')"><span style="font-size: 100%; color:#e1e6ed7e">Ratio</span>
-            <span style="font-size: 130%;">1:15</span></div>
+            <span id="ratio_value" style="font-size: 130%;">1:15</span></div>
     </div>
 
     <!-- <img src="./assets/dial.svg" id="knob"> -->
@@ -36,9 +40,8 @@
 
 
 </body>
+<!-- <script src="pubnub.js"></script> -->
 <script src="app.js"></script>
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="propeller.js"></script>
 <script>
     $('#knob').propeller({
         inertia: 0,
